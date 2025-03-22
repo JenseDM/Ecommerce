@@ -4,7 +4,7 @@ using Ecommerce.Core.Interfaces;
 using MediatR;
 
 
-namespace Ecommerce.Application.Commands
+namespace Ecommerce.Application.Commands.UserCommands
 {
     public record RegisterUserCommand(UserEntity user) : IRequest<ResponseFormat<Guid>>;
 
