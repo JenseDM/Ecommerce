@@ -97,4 +97,87 @@ public class UserRepository : IUserRepository
 
         return user;
     }
+
+    public async Task<UserEntity> GetUserByIdAsync(Guid id)
+    {
+        // Verificar si _context.Users no es nulo
+        if (_context.Users == null)
+        {
+            throw new InvalidOperationException("No existe la tabla Usuarios.");
+        }
+        // Buscar el usuario por ID
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        if (user == null)
+        {
+            throw new Exception("El usuario no existe"); // Usuario no encontrado
+        }
+        return user;
+    }
+
+    public async Task<IEnumerable<UserEntity>> GetAllUsersAsync()
+    {
+        // Verificar si _context.Users no es nulo
+        if (_context.Users == null)
+        {
+            throw new InvalidOperationException("No existe la tabla Usuarios.");
+        }
+        // Obtener todos los usuarios
+        var users = await _context.Users.ToListAsync();
+        return users;
+    }
+
+    public async Task<ResponseFormat<UserEntity>> UpdateUserBasicAsync(UserEntity user)
+    {
+        // Verificar si _context.Users no es nulo
+        if (_context.Users == null)
+        {
+            throw new InvalidOperationException("No existe la tabla Usuarios.");
+        }
+        // Buscar el usuario por ID
+        var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+        if (userToUpdate == null)
+        {
+            throw new Exception("El usuario no existe"); // Usuario no encontrado
+        }
+        // Actualizar los datos del usuario
+        userToUpdate.FirstName = user.FirstName;
+        userToUpdate.LastName = user.LastName;
+        userToUpdate.Phone = user.Phone;
+        // Guardar los cambios en la base de datos
+        _context.Users.Update(userToUpdate);
+        await _context.SaveChangesAsync();
+        var response = new ResponseFormat<UserEntity>
+        {
+            Success = true,
+            Message = "Usuario actualizado correctamente",
+            Data = userToUpdate
+        };
+        return response;
+    }
+
+    public async Task<ResponseFormat<bool>> DeleteUserAsync(Guid id)
+    {
+        // Verificar si _context.Users no es nulo
+        if (_context.Users == null)
+        {
+            throw new InvalidOperationException("No existe la tabla Usuarios.");
+        }
+        // Buscar el usuario por ID
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        if (user == null)
+        {
+            throw new Exception("El usuario no existe"); // Usuario no encontrado
+        }
+        
+        user.IsActive = false;
+        await _context.SaveChangesAsync();
+        var response = new ResponseFormat<bool>
+        {
+            Success = true,
+            Message = "Usuario eliminado(Desactivado) correctamente",
+            Data = true
+        };
+        return response;
+    }
+
 }

@@ -3,7 +3,7 @@ using Ecommerce.Core.Interfaces;
 using MediatR;
 
 
-namespace Ecommerce.Application.Queries
+namespace Ecommerce.Application.Queries.UserQueries
 {
     public record LoginUserQuery(string Email, string Password) : IRequest<ResponseFormat<string>>;
 
