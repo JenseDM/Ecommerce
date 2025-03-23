@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250322221037_InitialMigration")]
+    [Migration("20250323035151_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -226,12 +226,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("UserEntityId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserEntityId");
 
                     b.ToTable("Products");
                 });
@@ -280,7 +275,7 @@ namespace Ecommerce.Infrastructure.Migrations
             modelBuilder.Entity("Ecommerce.Core.Entities.AddressEntity", b =>
                 {
                     b.HasOne("Ecommerce.Core.Entities.UserEntity", null)
-                        .WithMany("Addresses")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -289,7 +284,7 @@ namespace Ecommerce.Infrastructure.Migrations
             modelBuilder.Entity("Ecommerce.Core.Entities.CartEntity", b =>
                 {
                     b.HasOne("Ecommerce.Core.Entities.UserEntity", null)
-                        .WithOne("Cart")
+                        .WithOne()
                         .HasForeignKey("Ecommerce.Core.Entities.CartEntity", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -298,7 +293,7 @@ namespace Ecommerce.Infrastructure.Migrations
             modelBuilder.Entity("Ecommerce.Core.Entities.CartItemEntity", b =>
                 {
                     b.HasOne("Ecommerce.Core.Entities.CartEntity", null)
-                        .WithMany("CartItems")
+                        .WithMany()
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -313,7 +308,7 @@ namespace Ecommerce.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Ecommerce.Core.Entities.UserEntity", null)
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -322,50 +317,19 @@ namespace Ecommerce.Infrastructure.Migrations
             modelBuilder.Entity("Ecommerce.Core.Entities.OrderItemEntity", b =>
                 {
                     b.HasOne("Ecommerce.Core.Entities.OrderEntity", null)
-                        .WithMany("OrderItems")
+                        .WithMany()
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Ecommerce.Core.Entities.PaymentMethodEntity", b =>
                 {
                     b.HasOne("Ecommerce.Core.Entities.UserEntity", null)
-                        .WithMany("paymentMethodEntities")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Ecommerce.Core.Entities.ProductEntity", b =>
-                {
-                    b.HasOne("Ecommerce.Core.Entities.UserEntity", null)
-                        .WithMany("FavoriteProducts")
-                        .HasForeignKey("UserEntityId");
-                });
-
-            modelBuilder.Entity("Ecommerce.Core.Entities.CartEntity", b =>
-                {
-                    b.Navigation("CartItems");
-                });
-
-            modelBuilder.Entity("Ecommerce.Core.Entities.OrderEntity", b =>
-                {
-                    b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("Ecommerce.Core.Entities.UserEntity", b =>
-                {
-                    b.Navigation("Addresses");
-
-                    b.Navigation("Cart")
-                        .IsRequired();
-
-                    b.Navigation("FavoriteProducts");
-
-                    b.Navigation("Orders");
-
-                    b.Navigation("paymentMethodEntities");
                 });
 #pragma warning restore 612, 618
         }
