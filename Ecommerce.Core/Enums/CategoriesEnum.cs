@@ -3,11 +3,11 @@
 namespace Ecommerce.Core.Enums
 {
     public enum CategoryProductEnum {
-        Laptop,
-        Smartphone,
-        Tablet,
-        Desktop,
-        Smartwatch,
-        Headphones
+        Laptop, //0
+        Smartphone,//1
+        Tablet,//2
+        Desktop,//3
+        Smartwatch,//4
+        Headphones//5
     }
 }
