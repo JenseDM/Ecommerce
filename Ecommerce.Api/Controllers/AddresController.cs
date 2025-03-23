@@ -25,10 +25,10 @@ namespace Ecommerce.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPost("AddAddress/{userId}")]
-        public async Task<IActionResult> AddAddressAsync([FromBody] AddressEntity address, [FromRoute] Guid userId)
+        [HttpPost("AddAddress")]
+        public async Task<IActionResult> AddAddressAsync([FromBody] AddressEntity address)
         {
-            var result = await sender.Send(new AddAddressCommand(address, userId));
+            var result = await sender.Send(new AddAddressCommand(address));
             return Ok(result);
         }
 

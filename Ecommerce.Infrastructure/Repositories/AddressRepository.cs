@@ -15,14 +15,13 @@ namespace Ecommerce.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<ResponseFormat<AddressEntity>> AddAddressAsync(AddressEntity address, Guid userId)
+        public async Task<ResponseFormat<AddressEntity>> AddAddressAsync(AddressEntity address)
         {
             if(_context.Addresses == null)
             {
                 throw new InvalidOperationException("No existe la tabla Direcciones.");
             }
 
-            address.UserId = userId;
             await _context.Addresses.AddAsync(address);
             await _context.SaveChangesAsync();
 

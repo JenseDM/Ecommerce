@@ -21,6 +21,7 @@ namespace Ecommerce.Infrastructure
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
 
             return services;
         }
