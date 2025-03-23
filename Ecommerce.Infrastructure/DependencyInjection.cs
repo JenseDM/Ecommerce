@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Core.Interfaces;
 using Ecommerce.Core.Options;
 using Ecommerce.Infrastructure.Data;
+using Ecommerce.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -19,6 +20,7 @@ namespace Ecommerce.Infrastructure
             });
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
 
             return services;
         }
