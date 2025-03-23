@@ -67,6 +67,14 @@ public class UserRepository : IUserRepository
 
         // Guardar el usuario en la base de datos
         await _context.Users.AddAsync(user);
+
+        if (_context.Carts == null)
+        {
+            throw new InvalidOperationException("La colección de carritos no está inicializada.");
+        }
+
+        await _context.Carts.AddAsync(new CartEntity { UserId = user.Id });
+
         await _context.SaveChangesAsync();
 
         var response = new ResponseFormat<Guid>

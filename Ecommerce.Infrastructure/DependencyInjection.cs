@@ -23,6 +23,8 @@ namespace Ecommerce.Infrastructure
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IPaymentMethodRepository, PaymentMethodRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<ICartItemRepository, CartItemRepository>();
 
             return services;
         }
