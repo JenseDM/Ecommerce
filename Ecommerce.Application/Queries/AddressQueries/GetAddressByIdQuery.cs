@@ -7,6 +7,7 @@ namespace Ecommerce.Application.Queries.AddressQueries
     public record GetAddressByIdQuery(Guid AddressId) : IRequest<AddressEntity>;
 
     public class  GetAddressByIdQueryHandler(IAddressRepository addressRepository)
+        : IRequestHandler<GetAddressByIdQuery, AddressEntity>
     {
         public async Task<AddressEntity> Handle(GetAddressByIdQuery request, CancellationToken cancellationToken)
         {

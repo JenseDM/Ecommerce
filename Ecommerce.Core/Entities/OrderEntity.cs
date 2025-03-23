@@ -9,6 +9,5 @@ namespace Ecommerce.Core.Entities
         public Guid AddressId { get; set; }
         public decimal Total { get; set; }
         public DateTime CreatedAt { get; set; }
-        public ICollection<OrderItemEntity> OrderItems { get; set; } = new List<OrderItemEntity>();
     }
 }

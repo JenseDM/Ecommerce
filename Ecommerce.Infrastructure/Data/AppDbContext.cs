@@ -27,41 +27,42 @@ namespace Ecommerce.Infrastructure.Data
 
             // Relación uno a muchos entre User y Address
             modelBuilder.Entity<AddressEntity>()
-                .HasOne<UserEntity>()
-                .WithMany(u => u.Addresses)
-                .HasForeignKey(a => a.UserId);
+                .HasOne<UserEntity>() // AddressEntity tiene una relación con UserEntity
+                .WithMany() // UserEntity no tiene una colección de AddressEntity
+                .HasForeignKey(a => a.UserId); // Clave foránea en AddressEntity
 
             // Relación uno a muchos entre User y PaymentMethod
             modelBuilder.Entity<PaymentMethodEntity>()
-                .HasOne<UserEntity>()
-                .WithMany(u => u.paymentMethodEntities)
-                .HasForeignKey(p => p.UserId);
+                .HasOne<UserEntity>() // PaymentMethodEntity tiene una relación con UserEntity
+                .WithMany() // UserEntity no tiene una colección de PaymentMethodEntity
+                .HasForeignKey(p => p.UserId); // Clave foránea en PaymentMethodEntity
+
+            // Relación uno a muchos entre User y Order
+            modelBuilder.Entity<OrderEntity>()
+                .HasOne<UserEntity>() // OrderEntity tiene una relación con UserEntity
+                .WithMany() // UserEntity no tiene una colección de OrderEntity
+                .HasForeignKey(o => o.UserId) // Clave foránea en OrderEntity
+                .OnDelete(DeleteBehavior.Restrict); // Comportamiento de eliminación
 
             // Relación uno a uno entre User y Cart
             modelBuilder.Entity<CartEntity>()
-                .HasOne<UserEntity>()
-                .WithOne(u => u.Cart)
-                .HasForeignKey<CartEntity>(c => c.UserId);
+                .HasOne<UserEntity>() // CartEntity tiene una relación con UserEntity
+                .WithOne() // UserEntity no tiene una relación inversa
+                .HasForeignKey<CartEntity>(c => c.UserId); // Clave foránea en CartEntity
 
             // Relación uno a muchos entre Cart y CartItem
             modelBuilder.Entity<CartItemEntity>()
                 .HasOne<CartEntity>()
-                .WithMany(c => c.CartItems)
-                .HasForeignKey(ci => ci.CartId);
+                .WithMany()
+                .HasForeignKey(ci => ci.CartId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Relación uno a muchos entre Order y OrderItem
             modelBuilder.Entity<OrderItemEntity>()
                 .HasOne<OrderEntity>()
-                .WithMany(o => o.OrderItems)
-                .HasForeignKey(oi => oi.OrderId);
-
-            // Relación uno a muchos entre User y Order
-            modelBuilder.Entity<OrderEntity>()
-                .HasOne<UserEntity>()
-                .WithMany(u => u.Orders)
-                .HasForeignKey(o => o.UserId)
+                .WithMany()
+                .HasForeignKey(oi => oi.OrderId)
                 .OnDelete(DeleteBehavior.Restrict);
-
 
             // Relación uno a uno entre Order y Address
             modelBuilder.Entity<OrderEntity>()
